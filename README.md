@@ -5,3 +5,5 @@
 
 
 In the future there will be more things this app tracks, but for now this is the main focus.
+
+check this out [Re-Base](https://github.com/tylermcginnis/re-base#fetchendpoint-options)
