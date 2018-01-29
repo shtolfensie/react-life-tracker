@@ -16,13 +16,20 @@ import * as routes from '../constants/routes';
 
 import withAuthentication from './withAuthentication';
 
+// MaterialUI imports
+import Button from 'material-ui/Button';
+import Typography from 'material-ui/Typography';
+
+import 'typeface-roboto';
+
 const App = () =>
       <Router>
         <div>
           <Navigation />
 
           <hr/>
-
+          
+          <Typography>
           <Route
             exact path={routes.LANDING}
             component={() => <LandingPage />}
@@ -47,6 +54,14 @@ const App = () =>
             exact path={routes.ACCOUNT}
             component={() => <AccountPage />}
           />
+          </Typography>
+
+          <Button raised color="primary">
+            Hello World
+          </Button>
+          <Typography type="display4" gutterBottom>
+            Display 4
+        </Typography>
         </div>
       </Router>
 
