@@ -13,33 +13,23 @@ import HomePage from './Home';
 import AccountPage from './Account';
 
 import * as routes from '../constants/routes';
-import { firebase } from '../firebase';
 
-class App extends Component {
-  constructor(props){
-    super(props);
+import withAuthentication from './withAuthentication';
 
-    this.state = {
-      authUser: null,
-    };
-  }
+// MaterialUI imports
+import Button from 'material-ui/Button';
+import Typography from 'material-ui/Typography';
 
-  componentDidMount() {
-    firebase.auth.onAuthStateChanged(authUser => {
-      authUser
-        ? this.setState(() => ({ authUser }))
-        : this.setState(() => ({ authUser: null }));
-    });
-  }
+import 'typeface-roboto';
 
-  render(){
-    return (
+const App = () =>
       <Router>
         <div>
-          <Navigation authUser={this.state.authUser}/>
+          <Navigation />
 
           <hr/>
-
+          
+          <Typography>
           <Route
             exact path={routes.LANDING}
             component={() => <LandingPage />}
@@ -64,13 +54,15 @@ class App extends Component {
             exact path={routes.ACCOUNT}
             component={() => <AccountPage />}
           />
+          </Typography>
+
+          <Button raised color="primary">
+            Hello World
+          </Button>
+          <Typography type="display4" gutterBottom>
+            Display 4
+        </Typography>
         </div>
       </Router>
 
-    );
-  }
-
-  
-}
-
-export default App;
+export default withAuthentication(App);
