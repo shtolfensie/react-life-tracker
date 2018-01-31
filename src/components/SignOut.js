@@ -4,11 +4,10 @@ import { auth } from '../firebase';
 
 
 const SignOutButton = () =>
-  <button
-    type='button'
+  <span
     onClick={auth.doSignOut}
   >
     Sign Out
-  </button>
+  </span>
 
 export default SignOutButton;

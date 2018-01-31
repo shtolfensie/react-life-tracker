@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import { SignUpLink } from './SignUp';
 import { auth } from '../firebase';
 import * as routes from '../constants/routes'
+
+import Button from 'material-ui/Button';
 
 const SignInPage = ({ history }) =>
   <div>
@@ -76,9 +78,10 @@ class SignInForm extends Component {
           type='password'
           placeholder='Password'
         />
-        <button disabled={isInvalid} type='submit'>
+        {/* <button disabled={isInvalid} type='submit'>
           Sign In
-        </button>
+        </button> */}
+        <Button raised size="small" color="secondary" disabled={isInvalid} type='submit'>Submit</Button>
 
         { error && <p>{error.message}</p> }
       </form>
@@ -86,8 +89,12 @@ class SignInForm extends Component {
   }
 }
 
+const SignInLink = () => 
+  <Link to={routes.SIGN_IN}>Sign In</Link>
+
 export default withRouter(SignInPage);
 
 export {
   SignInForm,
+  SignInLink
 };

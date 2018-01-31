@@ -5,12 +5,16 @@ import { Link } from 'react-router-dom';
 import * as routes from '../constants/routes';
 import SignOutButton from './SignOut';
 
+import TopAppBar from './TopAppBar';
+
 const Navigation = (props, { authUser }) =>
   <div>
-    { authUser
+    {/* { authUser
       ? <NavigationAuth />
       : <NavigationNonAuth />
-    }
+    } */}
+
+    <TopAppBar authUser={authUser} />
   </div>
 
 Navigation.contextTypes = {

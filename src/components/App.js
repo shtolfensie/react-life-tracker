@@ -12,6 +12,8 @@ import PasswordForgetPage from './PasswordForget';
 import HomePage from './Home';
 import AccountPage from './Account';
 
+import TemporaryDrawer from './MenuDrawer';
+
 import * as routes from '../constants/routes';
 
 import withAuthentication from './withAuthentication';
@@ -26,8 +28,8 @@ const App = () =>
       <Router>
         <div>
           <Navigation />
+          {/* <TemporaryDrawer /> */}
 
-          <hr/>
           
           <Typography>
           <Route
@@ -56,7 +58,7 @@ const App = () =>
           />
           </Typography>
 
-          <Button raised color="primary">
+          <Button raised color="primary" disabled={null}>
             Hello World
           </Button>
           <Typography type="display4" gutterBottom>
