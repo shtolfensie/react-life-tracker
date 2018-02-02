@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
-  Route
+  Route,
+  Switch
 } from 'react-router-dom';
 import './App.css';
 
@@ -17,22 +18,26 @@ import withAuthentication from './withAuthentication';
 const App = () =>
   <Router>
     <div>
+      <Switch>
+        <Route 
+          exact path={routes.SIGN_IN}
+          component={() => <SignInPage />}
+        />
 
-      <Route 
-        exact path={routes.SIGN_IN}
-        component={() => <SignInPage />}
-      />
+        <Route
+          exact path={routes.SIGN_UP}
+          component={() => <SignUpPage />}
+        />
 
-      <Route
-        exact path={routes.SIGN_UP}
-        component={() => <SignUpPage />}
-      />
+        <Route 
+          exact path ={routes.HOME}
+          component={() => <HomePage />}
+        />
 
-      <Route 
-        exact path ={routes.HOME}
-        component={() => <HomePage />}
-      />
-
+        <Route 
+          component={() => <p>404</p>}
+        />
+      </Switch>
     </div>
   </Router>
 

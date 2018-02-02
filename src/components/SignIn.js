@@ -3,6 +3,8 @@ import { auth } from '../firebase';
 import * as routes from '../constants/routes';
 import withRouter from 'react-router-dom/withRouter';
 
+import { SignUpLink } from './SignUp';
+
 const SignInPage = ({ history }) =>
   <div>
     <h3>Sign In:</h3>
@@ -56,6 +58,10 @@ class SignInForm extends Component {
       error,
     } = this.state;
 
+    const {
+      history
+    } = this.props;
+
     const isInvalid =
       email === '' ||
       password === '' ||
@@ -77,15 +83,23 @@ class SignInForm extends Component {
             onChange={event => this.setState(byPropKey('password', event.target.value))}
           />
           <button type='submit' disabled={isInvalid}>Submit</button>
+          {error && <p>{error.message}</p>}
         </form>
         <button type='button' onClick={auth.doSignOut}>Sign Out</button>
+        <button><SignUpLink history={history} /></button>
       </div>
     );
   }
 }
 
+const SignInLink = ({ history }) =>
+  <div onClick={() => history.push(routes.SIGN_IN)}>
+    Sign In
+  </div>
+
 export default withRouter(SignInPage);
 
 export {
   SignInForm,
+  SignInLink,
 };
