@@ -42,7 +42,7 @@ class SignInForm extends Component {
     auth.doSignInWithEmailAndPassword(email, password)
       .then(() => {
         this.setState(() => ({ ...INITIAL_STATE }));
-        history.push(routes.HOME);
+        history.push(routes.INDEX);
       })
       .catch(error => {
         this.setState(byPropKey('error', error));
@@ -86,15 +86,15 @@ class SignInForm extends Component {
           {error && <p>{error.message}</p>}
         </form>
         <button type='button' onClick={auth.doSignOut}>Sign Out</button>
-        <button><SignUpLink history={history} /></button>
+        <SignUpLink history={history}><button>Sign Up</button></SignUpLink>
       </div>
     );
   }
 }
 
-const SignInLink = ({ history }) =>
+const SignInLink = ({ history, children }) =>
   <div onClick={() => history.push(routes.SIGN_IN)}>
-    Sign In
+    { children ? children : 'Sign In' }
   </div>
 
 export default withRouter(SignInPage);

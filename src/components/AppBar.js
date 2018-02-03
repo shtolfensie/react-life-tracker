@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -12,6 +13,8 @@ import Menu, { MenuItem } from 'material-ui/Menu';
 import FormGroup from 'material-ui/Form/FormGroup';
 
 import MenuDrawer from './MenuDrawer';
+import SignOut from './SignOut';
+import { AccountLink } from './Account';
 
 
 
@@ -105,8 +108,8 @@ class MenuAppBar extends Component {
                 open={open}
                 onClose={this.handleClose}
               >
-                <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                <MenuItem onClick={this.handleClose}>Account Settings</MenuItem>
+                <AccountLink><MenuItem onClick={this.handleClose}>Account</MenuItem></AccountLink>
+                <SignOut><MenuItem onClick={this.handleClose}>Sign Out</MenuItem></SignOut>
               </Menu>
             </div>
           </Toolbar>

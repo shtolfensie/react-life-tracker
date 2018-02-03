@@ -46,7 +46,7 @@ class SignUpForm extends Component {
     auth.doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(() => {
         this.setState(() => ({ ...INITIAL_STATE }));
-        history.push(routes.HOME);
+        history.push(routes.INDEX);
       })
       .catch((error) => {
         this.setState(byPropName('error', error))
@@ -105,15 +105,15 @@ class SignUpForm extends Component {
 
           {error && <p>{error.message}</p>}
         </form>
-        <button><SignInLink history={history}/></button>
+        <SignInLink history={history}><button>Sign In</button></SignInLink>
       </div>
     );
   }
 }
 
-const SignUpLink = ({ history }) =>
+const SignUpLink = ({ history, children }) =>
   <div onClick={() => history.push(routes.SIGN_UP)}>
-    Sign Up
+    { children ? children : 'Sign In' }
   </div>
 
 export default withRouter(SignUpPage);

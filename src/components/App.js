@@ -12,6 +12,9 @@ import { firebase } from '../firebase';
 import HomePage from './Home';
 import SignInPage from './SignIn';
 import SignUpPage from './SignUp';
+import AccountPage from './Account';
+import Topics from './Topics';
+import IndexPage from './IndexPage';
 
 import withAuthentication from './withAuthentication';
 
@@ -30,9 +33,13 @@ const App = () =>
         />
 
         <Route 
-          exact path ={routes.HOME}
-          component={() => <HomePage />}
+          path={routes.INDEX}
+          component={HomePage}
         />
+
+        {/* <Route exact path={routes.INDEX} component={() => <IndexPage />}/> */}
+
+        <Route path='/topics' component={Topics}/>
 
         <Route 
           component={() => <p>404</p>}
