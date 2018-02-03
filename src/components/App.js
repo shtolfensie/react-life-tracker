@@ -4,7 +4,6 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import './App.css';
 
 import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
@@ -17,6 +16,8 @@ import Topics from './Topics';
 import IndexPage from './IndexPage';
 
 import withAuthentication from './withAuthentication';
+
+import 'typeface-roboto'
 
 const App = () =>
   <Router>

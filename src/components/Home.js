@@ -39,7 +39,7 @@ class Section extends Component {
     appbar: AppBar,
   }
 
-  getCompName = () => {
+  getComponentName = () => {
     const {
       match
     } = this.props;
@@ -53,7 +53,7 @@ class Section extends Component {
   }
 
   render() {
-    const CompName = this.getCompName();
+    const CompName = this.getComponentName();
     return <CompName />
   }
 }
