@@ -25,10 +25,13 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     width: 200,
   },
-  item: {
+  valueItem: {
     height: '70px',
     display: 'flex',
   },
+  item: {
+    display: 'flex',
+  }
 });
 
 const byPropKey = (propName, value) => () => ({
@@ -66,7 +69,16 @@ class AccountPage extends Component {
     return (
       <div>
         <div>Account Page</div>
-        {authUser && <AccountInfo authUser={authUser} classes={classes}/>}
+        {authUser &&
+          <Grid container className={classes.root}>
+            <Grid item xs={12}>
+              <AccountInfo authUser={authUser} classes={classes}/>
+            </Grid>
+            <Grid item xs={12}>
+              <AccountPassword authUser={authUser} classes={classes}/>
+            </Grid>
+          </Grid>
+        }
       </div>
     );
   }
@@ -119,7 +131,7 @@ class AccountInfo extends Component {
                     Account information:
                   </Typography>
                 </Grid>
-                <Grid item xs={12} className={classes.item} alignItems='center' justify='space-between'>
+                <Grid item xs={12} className={classes.valueItem} alignItems='center' justify='space-between'>
                   <Typography type='subheading' gutterBottom>
                     {'Display name: '}
                     { edit
@@ -131,7 +143,7 @@ class AccountInfo extends Component {
                           : name }
                   </Typography>
                 </Grid>
-                <Grid item xs={12} className={classes.item} alignItems='center'>
+                <Grid item xs={12} className={classes.valueItem} alignItems='center'>
                   <Typography type='subheading' gutterBottom>
                     {'Email: '}
                       { edit
@@ -143,9 +155,9 @@ class AccountInfo extends Component {
                         : email}
                   </Typography>
                 </Grid>
-                <Grid item xs={12} className={classes.item} alignItems='center'>
+                <Grid item xs={12} className={classes.valueItem} alignItems='center'>
                   <Typography type='subheading' gutterBottom>
-                    {'Email: '}
+                    {'Real name: '}
                       { edit
                         ? <TextField
                             value={email}
@@ -154,11 +166,13 @@ class AccountInfo extends Component {
                           />
                         : email}
                   </Typography>
+                </Grid>
+                <Grid item xs={12} className={classes.item} justify='flex-end'>
+                  <Button onClick={() => this.setState({ edit: !edit })}>
+                    Edit
+                  </Button>
                 </Grid>
               </Grid>
-              <Button onClick={() => this.setState({ edit: !edit })}>
-                Edit
-              </Button>
             </Paper>
           </Grid>
         </Grid>
@@ -168,6 +182,104 @@ class AccountInfo extends Component {
 
 }
 
+
+class AccountPassword extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      edit: false,
+      name: '',
+      email: '',
+      password: '',
+    }
+  }
+
+  componentDidMount() {
+    const {
+      authUser
+    } = this.props;
+
+    this.setState({
+      name: authUser.displayName,
+      email: authUser.email,
+    })
+  }
+
+  render() {
+    const {
+      authUser,
+      classes
+    } = this.props;
+
+    const {
+      edit,
+      name,
+      email
+    } = this.state;
+
+    return (
+      <div>
+        <Grid container className={classes.root} justify='space-around'>
+          <Grid item xs={11}>
+            <Paper className={classes.paper} >
+              <Grid container className={classes.root}>
+                <Grid item xs={12}>
+                  <Typography type='display1' gutterBottom>
+                    Account information:
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} className={classes.valueItem} alignItems='center' justify='space-between'>
+                  <Typography type='subheading' gutterBottom>
+                    {'Display name: '}
+                    { edit
+                          ? <TextField
+                              value={name}
+                              onChange={event => this.setState(byPropKey('name', event.target.value))}
+                              className={classes.textField}
+                            />
+                          : name }
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} className={classes.valueItem} alignItems='center'>
+                  <Typography type='subheading' gutterBottom>
+                    {'Email: '}
+                      { edit
+                        ? <TextField
+                            value={email}
+                            onChange={event => this.setState(byPropKey('email', event.target.value))}
+                            className={classes.textField}
+                          />
+                        : email}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} className={classes.valueItem} alignItems='center'>
+                  <Typography type='subheading' gutterBottom>
+                    {'Real name: '}
+                      { edit
+                        ? <TextField
+                            value={email}
+                            onChange={event => this.setState(byPropKey('email', event.target.value))}
+                            className={classes.textField}
+                          />
+                        : email}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} className={classes.item} justify='flex-end'>
+                  <Button onClick={() => this.setState({ edit: !edit })}>
+                    Edit
+                  </Button>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+        </Grid>
+      </div>
+    )
+  }
+
+}
 
 export const AccountLink = withRouter(({ history, children }) => (
   <div onClick={() => {history.push('/account')}}>
