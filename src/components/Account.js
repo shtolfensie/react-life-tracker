@@ -7,13 +7,21 @@ import Typography from 'material-ui/Typography'
 import Grid from 'material-ui/Grid'
 import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
+import Delete from 'material-ui-icons/Delete'
+import Edit from 'material-ui-icons/Edit'
+import Save from 'material-ui-icons/Save'
 
 import { withRouter } from 'react-router-dom'
 
 import { firebase } from '../firebase'
-import { auth } from 'firebase';
+
+import { doSaveAccountInfoToFirebse } from '../Utils/AccountSave';
 
 const styles = theme => ({
+  mainGrid: {
+    flexGrow: 1,
+    marginTop: theme.spacing.unit,
+  },
   root: {
     flexGrow: 1,
   },
@@ -31,6 +39,12 @@ const styles = theme => ({
   },
   item: {
     display: 'flex',
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
   }
 });
 
@@ -68,14 +82,16 @@ class AccountPage extends Component {
 
     return (
       <div>
-        <div>Account Page</div>
         {authUser &&
-          <Grid container className={classes.root}>
+          <Grid container className={classes.mainGrid} alignContent='space-around'>
             <Grid item xs={12}>
               <AccountInfo authUser={authUser} classes={classes}/>
             </Grid>
             <Grid item xs={12}>
               <AccountPassword authUser={authUser} classes={classes}/>
+            </Grid>
+            <Grid item xs={12}>
+              <AccountDelete authUser={authUser} classes={classes}/>
             </Grid>
           </Grid>
         }
@@ -94,6 +110,7 @@ class AccountInfo extends Component {
       name: '',
       email: '',
       password: '',
+      prevState: null,
     }
   }
 
@@ -106,6 +123,50 @@ class AccountInfo extends Component {
       name: authUser.displayName,
       email: authUser.email,
     })
+  }
+
+  handleCancel = () => {
+    const {
+      prevState,
+    } = this.state;
+    this.setState({
+      email: prevState.email,
+      name: prevState.name,
+    });
+    this.setState({ edit: false });
+  }
+
+  handleEdit = () => {
+    const {
+      email,
+      name,
+    } = this.state;
+
+    this.setState({ 
+      prevState: {
+        email,
+        name,
+      }
+    });
+
+    this.setState({ edit: true });
+  }
+
+  handleSave = () => {
+    const {
+      email,
+      name,
+    } = this.state;
+
+    try {
+      doSaveAccountInfoToFirebse(email, name);
+    }
+    catch(error) {
+      alert('noooo');
+    }
+
+    this.setState({ edit: false });
+    
   }
 
   render() {
@@ -155,22 +216,22 @@ class AccountInfo extends Component {
                         : email}
                   </Typography>
                 </Grid>
-                <Grid item xs={12} className={classes.valueItem} alignItems='center'>
-                  <Typography type='subheading' gutterBottom>
-                    {'Real name: '}
-                      { edit
-                        ? <TextField
-                            value={email}
-                            onChange={event => this.setState(byPropKey('email', event.target.value))}
-                            className={classes.textField}
-                          />
-                        : email}
-                  </Typography>
-                </Grid>
                 <Grid item xs={12} className={classes.item} justify='flex-end'>
-                  <Button onClick={() => this.setState({ edit: !edit })}>
-                    Edit
-                  </Button>
+                  { edit
+                    ? <div>
+                      <Button className={classes.button} disableRipple onClick={this.handleCancel}>
+                        Cancel
+                      </Button>
+                      <Button className={classes.button} disableRipple onClick={this.handleSave}>
+                        Save
+                        <Save className={classes.rightIcon}/>
+                      </Button>
+                    </div>
+                    : <Button className={classes.button} disableRipple onClick={this.handleEdit}>
+                        Edit
+                        <Edit className={classes.rightIcon}/>
+                      </Button>
+                  }
                 </Grid>
               </Grid>
             </Paper>
@@ -189,22 +250,8 @@ class AccountPassword extends Component {
     super(props);
 
     this.state = {
-      edit: false,
-      name: '',
-      email: '',
       password: '',
-    }
-  }
-
-  componentDidMount() {
-    const {
-      authUser
-    } = this.props;
-
-    this.setState({
-      name: authUser.displayName,
-      email: authUser.email,
-    })
+    };
   }
 
   render() {
@@ -214,9 +261,7 @@ class AccountPassword extends Component {
     } = this.props;
 
     const {
-      edit,
-      name,
-      email
+      password
     } = this.state;
 
     return (
@@ -225,51 +270,12 @@ class AccountPassword extends Component {
           <Grid item xs={11}>
             <Paper className={classes.paper} >
               <Grid container className={classes.root}>
-                <Grid item xs={12}>
-                  <Typography type='display1' gutterBottom>
-                    Account information:
-                  </Typography>
-                </Grid>
                 <Grid item xs={12} className={classes.valueItem} alignItems='center' justify='space-between'>
                   <Typography type='subheading' gutterBottom>
-                    {'Display name: '}
-                    { edit
-                          ? <TextField
-                              value={name}
-                              onChange={event => this.setState(byPropKey('name', event.target.value))}
-                              className={classes.textField}
-                            />
-                          : name }
+                    {'Password: '}
                   </Typography>
-                </Grid>
-                <Grid item xs={12} className={classes.valueItem} alignItems='center'>
-                  <Typography type='subheading' gutterBottom>
-                    {'Email: '}
-                      { edit
-                        ? <TextField
-                            value={email}
-                            onChange={event => this.setState(byPropKey('email', event.target.value))}
-                            className={classes.textField}
-                          />
-                        : email}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} className={classes.valueItem} alignItems='center'>
-                  <Typography type='subheading' gutterBottom>
-                    {'Real name: '}
-                      { edit
-                        ? <TextField
-                            value={email}
-                            onChange={event => this.setState(byPropKey('email', event.target.value))}
-                            className={classes.textField}
-                          />
-                        : email}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} className={classes.item} justify='flex-end'>
-                  <Button onClick={() => this.setState({ edit: !edit })}>
-                    Edit
-                  </Button>
+                  <Button>Change password</Button>
+                  <Button>Reset password</Button>
                 </Grid>
               </Grid>
             </Paper>
@@ -279,6 +285,40 @@ class AccountPassword extends Component {
     )
   }
 
+}
+
+class AccountDelete extends Component {
+  constructor(props) {
+    super(props);
+  };
+
+  render() {
+
+    const {
+      classes
+    } = this.props;
+    return (
+      <div>
+        <Grid container className={classes.root} justify='space-around'>
+          <Grid item xs={11}>
+            <Paper className={classes.paper}>
+              <Grid container className={classes.root}>
+                <Grid item xs={12} className={classes.item} alignItems='center' justify='space-between'>
+                  <Typography type='subheading'>
+                    Delete Account:
+                  </Typography>
+                  <Button className={classes.button} raised color='secondary'>
+                    Delete
+                    <Delete className={classes.rightIcon}/>
+                  </Button>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+        </Grid>
+      </div> 
+    )
+  }
 }
 
 export const AccountLink = withRouter(({ history, children }) => (

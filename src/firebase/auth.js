@@ -41,3 +41,15 @@ export const doUpdateProfile = (data) => {
       console.log(error);
     });
 }
+
+// Update email
+export const doUpdateEmail = (email) => {
+  auth.currentUser.updateEmail(email)
+    .then(() => {
+      console.log('Email updated.');
+    })
+    .catch((error) => {
+      console.log(error);
+      throw 'uh oh';
+    });
+}

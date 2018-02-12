@@ -13,6 +13,9 @@ import AppBar from './AppBar';
 
 import AccountPage from './Account';
 import FourOFourPage from './FourOFour';
+import SleepTracker from './Sleeptracker';
+
+import * as dateUtil from '../Utils/dateFormat';
 
 const HomePage = ({ match }, { authUser }) =>
   <div>
@@ -37,6 +40,7 @@ class Section extends Component {
     '404': FourOFourPage,
     account: AccountPage,
     appbar: AppBar,
+    sleep: SleepTracker,
   }
 
   getComponentName = () => {
@@ -54,7 +58,7 @@ class Section extends Component {
 
   render() {
     const CompName = this.getComponentName();
-    return <CompName />
+    return <CompName/>
   }
 }
 

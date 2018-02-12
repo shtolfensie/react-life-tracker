@@ -3,10 +3,13 @@ import PropTypes from 'prop-types'
 
 import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
+import Button from 'material-ui/Button';
+import List, { ListItem, ListItemText} from 'material-ui/List';
 
-const styles = {
+import { Link } from 'react-router-dom'
 
-};
+const styles = theme => ({
+});
 
 
 class MenuDrawer extends Component {
@@ -31,12 +34,22 @@ class MenuDrawer extends Component {
           tabIndex={0}
           role='button'
           onClick={onClose}>
-          Ho hoho
+          <DrawerList />
         </div>
       </Drawer>
     );
   }
 }
+
+const DrawerList = () =>
+  <List>
+    <ListItem>
+      <Button component={Link} to='/'>Home</Button>
+    </ListItem>
+    <ListItem>
+      <Button component={Link} to='/sleep'>Sleep tracker</Button>
+    </ListItem>
+  </List>
 
 MenuDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
